@@ -1,0 +1,36 @@
+{
+  "name": "videoresizer",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "VideoResizer — Free Online Video Resizer & Cropper (No Watermark, Zero Upload)",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "prebuild": "node scripts/copy-ffmpeg-assets.mjs",
+    "postbuild": "node scripts/generate-precache-manifest.mjs",
+    "postinstall": "node scripts/copy-ffmpeg-assets.mjs",
+    "preview": "astro preview",
+    "astro": "astro",
+    "sync:ffmpeg": "node scripts/copy-ffmpeg-assets.mjs"
+  },
+  "dependencies": {
+    "@astrojs/react": "^7.1.7",
+    "@astrojs/sitemap": "^3.7.4",
+    "@ffmpeg/core": "^0.12.10",
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/util": "^0.12.2",
+    "@tailwindcss/vite": "^4.3.5",
+    "astro": "^7.4.10",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.1.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.8.2"
+  }
+}

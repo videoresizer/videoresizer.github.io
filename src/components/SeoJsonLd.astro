@@ -1,0 +1,89 @@
+---
+import { getLocalePath, getTranslation, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslation(locale);
+const siteOrigin = 'https://videoresizer.github.io';
+const canonicalUrl = `${siteOrigin}${getLocalePath(locale)}`;
+const toolsAnchorUrl = `${canonicalUrl}#tools-guide`;
+
+const webApplicationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'VideoResizer',
+  url: siteOrigin + '/',
+  mainEntityOfPage: canonicalUrl,
+  description: t.meta.description,
+  applicationCategory: 'MultimediaApplication',
+  operatingSystem: 'All',
+  browserRequirements: 'Requires HTML5 and WebAssembly',
+  inLanguage: locale,
+  offers: {
+    '@type': 'Offer',
+    price: '0.00',
+    priceCurrency: 'USD',
+  },
+};
+
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: t.howTo.title,
+  description: t.howTo.subtitle,
+  inLanguage: locale,
+  step: t.howTo.steps.map((stepText, index) => ({
+    '@type': 'HowToStep',
+    position: index + 1,
+    name: `Step ${index + 1}`,
+    text: stepText,
+  })),
+};
+
+const faqPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  inLanguage: locale,
+  mainEntity: t.faq.items.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a,
+    },
+  })),
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: t.breadcrumbs.home,
+      item: canonicalUrl,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: t.breadcrumbs.tools,
+      item: toolsAnchorUrl,
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: t.breadcrumbs.current,
+      item: canonicalUrl,
+    },
+  ],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(webApplicationSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(faqPageSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
